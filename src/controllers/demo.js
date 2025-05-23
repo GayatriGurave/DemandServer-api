@@ -20,7 +20,6 @@ let createOrder = async (req, res) => {
 let fetchOrder = async (req, res) => {
     try {
         let result = await Order.find()
-        .where('orderStatus').eq('Pending')
             .populate("orderItems.prodId")
             .populate("distributerId")
         res.status(200).json(result)
@@ -86,28 +85,4 @@ const updateOrderItems = async (req, res) => {
     }
 };
 
-//Approve order status
-// Fetch only orders with status "Approved"
-const fetchApproveOrderStatus = async (req, res) => {
-    try {
-        const approvedOrders = await Order.find()
-            .where('orderStatus').eq('Approved')
-            .populate("orderItems.prodId")
-            .populate("distributerId");
-
-        res.status(200).json({
-            success: true,
-            data: approvedOrders,
-            message: "Approved orders fetched successfully."
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
-
-
-export { createOrder, updateOrderItems, fetchOrder,fetchApproveOrderStatus }
+export { createOrder, updateOrderItems, fetchOrder }
