@@ -30,6 +30,25 @@ let fetchOrder = async (req, res) => {
     }
 }
 
+let distOrd = async (req, res) => {
+    try {
+        const { status } = req.query;
+
+        // Build a filter object dynamically
+        const filter = status ? { orderStatus: status } : {};
+
+        const result = await Order.find(filter)
+            .populate("orderItems.prodId")
+            .populate("distributerId");
+
+        res.status(200).json(result);
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ message: "Internal Server Error", error });
+    }
+};
+
+
 const updateOrderItems = async (req, res) => {
     try {
 
@@ -110,4 +129,4 @@ const fetchApproveOrderStatus = async (req, res) => {
 };
 
 
-export { createOrder, updateOrderItems, fetchOrder,fetchApproveOrderStatus }
+export { createOrder, updateOrderItems, fetchOrder,fetchApproveOrderStatus,distOrd }
