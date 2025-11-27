@@ -9,6 +9,9 @@ let orderSchema = mongoose.Schema({
      },
     distributerId : { type : mongoose.Schema.Types.ObjectId , ref:"Distributer"},
     orderTotalAmount: { type: Number },
+    approvedAmount :{ type : Number,
+                        default : 0
+    },
     orderItems : [{
         prodId : { type: mongoose.Schema.Types.ObjectId , ref:"Product"},
         demandedQty : {type : Number},
